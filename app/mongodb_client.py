@@ -14,11 +14,11 @@ class MongoDBClient:
     def ping(self):
         return self.client.db_name.command('ping')
     
-    def getDatabase(self, database):
+    def getDatabase(self, database='sensors'):
         self.database = self.client[database]
         return self.database
 
-    def getCollection(self, collection):
+    def getCollection(self, collection='base'):
         self.collection = self.database[collection]
         return self.collection
     

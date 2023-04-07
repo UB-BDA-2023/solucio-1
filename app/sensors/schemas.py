@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class Sensor(BaseModel):
     id: int
@@ -29,10 +30,23 @@ class SensorCreate(BaseModel):
     model: str
     serie_number: str
     firmware_version: str
+    description: str
 
 class SensorData(BaseModel):
-    velocity: float
-    temperature: float
-    humidity: float
+    velocity: Optional[float]
+    temperature: Optional[float]
+    humidity: Optional[float]
     battery_level: float
     last_seen: str
+    
+class SensorMongoProjection(BaseModel):
+    id: int
+    name: str
+    location: dict
+    type: str
+    mac_address: str
+    description: str
+    serie_number: str
+    firmware_version: str
+    model: str
+    manufacturer: str

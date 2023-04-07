@@ -1,7 +1,7 @@
 import redis
 
 class RedisClient:
-    def __init__(self, host='localhost', port=6379, db=0):
+    def __init__(self, host='redis', port=6379, db=0):
         self._host = host
         self._port = port
         self._db = db

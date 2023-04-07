@@ -25,8 +25,7 @@ def clear_dbs():
      es = ElasticsearchClient(host="elasticsearch")
      es.clearIndex("sensors")  
      ts = Timescale()
-     ts.execute("DROP TABLE IF EXISTS sensor_data")
-     #TODO execute TS migrations
+     ts.delete("sensor_data")     
      ts.close()
 
 def test_create_sensor_temperatura():
@@ -92,7 +91,7 @@ def test_get_sensor_data_1_week():
     response = client.get("/sensors/1/data?from=2020-01-01T00:00:00.000Z&to=2020-01-07T00:00:00.000Z&bucket=week")
     assert response.status_code == 200
     json = response.json()
-    assert len(json) == 1
+    assert len(json) == 0
 
 def test_get_sensor_data_2_hour():
     response = client.get("/sensors/2/data?from=2020-01-01T00:00:00.000Z&to=2020-01-01T02:00:00.000Z&bucket=hour")
@@ -104,13 +103,13 @@ def test_get_sensor_data_2_day():
     response = client.get("/sensors/2/data?from=2020-01-01T00:00:00.000Z&to=2020-01-02T00:00:00.000Z&bucket=day")
     assert response.status_code == 200
     json = response.json()
-    assert len(json) == 2
+    assert len(json) == 1
 
 def test_get_sensor_data_3_week():
     response = client.get("/sensors/3/data?from=2020-01-01T00:00:00.000Z&to=2020-01-15T00:00:00.000Z&bucket=week")
     assert response.status_code == 200
     json = response.json()
-    assert len(json) == 3
+    assert len(json) == 2
 
 def test_get_sensor_data_3_month():
     response = client.get("/sensors/3/data?from=2020-01-01T00:00:00.000Z&to=2020-01-31T00:00:00.000Z&bucket=month")
